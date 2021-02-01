@@ -142,20 +142,9 @@ function totalExpense() {
 
 
  
-// #5 code
 
 
-
-
-
-
-
-
-
-
-
-
-// Trying to figure out how to make # 5 work
+// Trying to figure out how to make # 5 work from Dawud's ideas Friday
 
 // function formatDate (date){
 //     let startDate = document.querySelector('#start-date').value;
@@ -169,9 +158,6 @@ function totalExpense() {
 //     return newDate
 // }
 
-
-// dfd
-// 
 
 
 // function dayofweek(startDate) {
@@ -187,3 +173,4 @@ function totalExpense() {
 
 
 //below code copied from assignment notes for # 6//
+// removed
