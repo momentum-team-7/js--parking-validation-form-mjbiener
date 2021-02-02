@@ -4,11 +4,10 @@ let formIsValid
 
 window.addEventListener('submit', event => {
     event.preventDefault()
-   
+
 })
 
 form.addEventListener('submit', validate)
- 
 
 
 function validate(event) {
@@ -20,16 +19,19 @@ function validate(event) {
     validateCarYear();
     validateParkDate();
     totalExpense();
-   }  
+    }  
 }
 
 
 function confirmValidForm() {
     if (formIsValid && form.checkValidity()){
         const validMsgEl = document.querySelector('#total')
+        const total = totalExpense ();
+        validMsgEl.innerText = `Your total cost is $${total}`
+        
         // const validMsgText = document.querySelector('fullPrice')
-        // let cost = validMsgText.tostring()
-        validMsgEl.innerText = totalExpense()
+        // validMsgText.tostring()
+        
     }
 }
 
@@ -93,7 +95,7 @@ function validateCarYear() {
     let carYearDate = parseInt(carYear.value);
     let currentYear= new Date().getFullYear() + 1;
 
-     if (carYearDate > currentYear) {
+    if (carYearDate > currentYear) {
         console.log("Car year is invalid")
         formIsValid = false;
         carYear.setCustomValidity('Car year is invalid');
@@ -130,47 +132,37 @@ function validateParkDate(){
     }
 }
 
+// # 4 Cost Function - changed to below for # 5
+// function totalExpense() {
+//     let price = 5
+//     const totaldays = document.querySelector('#days').value
+//     let fullPrice = totaldays * price
+//     console.log (fullPrice);
 
-function totalExpense() {
-    let price = 5
-    const totaldays = document.querySelector('#days').value
-    let fullPrice = totaldays * price
-    console.log (fullPrice);
-
-    return `Your total cost is $${fullPrice}`;
-}
-
-
- 
-
-
-// Trying to figure out how to make # 5 work from Dawud's ideas Friday
-
-// function formatDate (date){
-//     let startDate = document.querySelector('#start-date').value;
-//     let actualDate = startDate.replace(/-/g, '/');
-//     console.log (actualDate)
-// }
-
-// function changeDate(date) {
-    // let newDate = date.replace(/-/g, '\/');
-//     console.log (newDate);
-//     return newDate
+//     return `Your total cost is $${fullPrice}`;
 // }
 
 
 
-// function dayofweek(startDate) {
-//     let startDate = document.querySelector('#start-date').value
-//     let actualDate = startDate.replace ( /-/g , '/');
-//     let d = new Date(actualDate).dayofweek();
-//     console.log(d);
+// #5 code from Amy Monday AM  - returns price but how to add the text "your total price is $ (price)?
+// worked with Grant / Albany / Arthur Mon night to debug the price display issue 
 
-//     return d;
-// }
+function totalExpense () {
+    let startDate = document.querySelector('#start-date').value
+    let numDays = parseInt(document.querySelector('#days').value, 10)
+    console.log(numDays)
+    let days = []
+    let day = new Date(startDate)
 
+    for (let i = 1; i <= numDays; i++) {
+        day = new Date(day.setDate(day.getDate() + 1))
+        days.push(day.getDay())
+    }
 
-
-
-//below code copied from assignment notes for # 6//
-// removed
+    return days
+        .map(day => (day > 0 && day < 6 ? 5 : 7))
+        .reduce((total, price) => {
+        return (total += price)
+    }, 0)
+    
+}  
