@@ -28,35 +28,57 @@ function confirmValidForm() {
         const validMsgEl = document.querySelector('#total')
         const total = totalExpense ();
         validMsgEl.innerText = `Your total cost is $${total}`
-        
         // const validMsgText = document.querySelector('fullPrice')
         // validMsgText.tostring()
         
     }
 }
 
+function validateCardNumber(cardNumber) {
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(cardNumber))
+        return false;
 
-function validateCardNumber () {
-    let cardInput= document.querySelector("#credit-card")
-    let cardValue= cardInput.value
-    let parentEl= cardInput.parentElement
-
-    document.getElementsByTagName("label")[4].setAttribute("id", "card-label");
-    let cardLabel = document.querySelector("card-label")
-    
-    if (cardValue.length < 16 || cardValue.length > 16 || isNaN(cardValue)) {
-        console.log("Card number is invalid")
-        parentEl.classList.remove("input-valid")
-        cardLabel.textContent = "Credit card number must be 16 digits"
-        parentEl.classList.add("input-invalid")
-        formIsValid = false
-    }   else {
-        console.log("Card number is valid")
-        parentEl.classList.remove("input-invalid")
-        // cardLabel.textContent = "Credit card"
-        parentEl.classList.add("input-valid")
-    }
+    return luhnCheck(cardNumber);
 }
+
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
+}
+
+
+// function validateCardNumber () {
+//     let cardInput= document.querySelector("#credit-card")
+//     let cardValue= cardInput.value
+//     let parentEl= cardInput.parentElement
+
+//     document.getElementsByTagName("label")[4].setAttribute("id", "card-label");
+//     let cardLabel = document.querySelector("card-label")
+    
+//     if (cardValue.length < 16 || cardValue.length > 16 || isNaN(cardValue)) {
+//         console.log("Card number is invalid")
+//         parentEl.classList.remove("input-valid")
+//         cardLabel.textContent = "Credit card number must be 16 digits"
+//         parentEl.classList.add("input-invalid")
+//         formIsValid = false
+//     }   else {
+//         console.log("Card number is valid")
+//         parentEl.classList.remove("input-invalid")
+//         // cardLabel.textContent = "Credit card"
+//         parentEl.classList.add("input-valid")
+//     }
+// }
 
 function validateExpDate() {
     let expDateInput = document.querySelector("#expiration")
@@ -78,14 +100,15 @@ function validateExpDate() {
         parentEl.classList.remove("input-invalid")
         expLabel.textContent = "Expiration"
         parentEl.classList.add("input-valid")
+
     }   else {
         console.log("Expiration Date is invalid")
         parentEl.classList.remove("input-valid")
         parentEl.classList.remove("input-valid")
         parentEl.classList.add("input-invalid")
         expLabel.textContent = "Expiration date must be in the future"
-        formIsValid = false
-
+        formisvalid = false
+        return false
     }
 
 }
@@ -166,3 +189,5 @@ function totalExpense () {
     }, 0)
     
 }  
+
+
